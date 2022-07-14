@@ -108,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   onPressed: _togglePause,
                   child: Text(
                     _toggleIcon(),
-                    style: TextStyle(fontSize: 16),
+                    style: const TextStyle(fontSize: 16),
                   )),
               const SizedBox(width: 10),
               ElevatedButton(
