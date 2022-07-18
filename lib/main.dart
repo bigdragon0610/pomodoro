@@ -54,10 +54,17 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _togglePause() {
+  void _executePomodoroTimer() {
+    if (_counter == 0) {
+      return;
+    }
+
     setState(() {
       _pause = !_pause;
     });
+    if (!_pause) {
+      _pomodoroTimer();
+    }
   }
 
   void _incrementMinute() {
@@ -75,16 +82,18 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
+  void _pomodoroTimer() {
     Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       if (_counter == 0 || _pause) {
-        return;
+        setState(() {
+          _pause = true;
+        });
+        timer.cancel();
+      } else {
+        setState(() {
+          _counter--;
+        });
       }
-      setState(() {
-        _counter--;
-      });
     });
   }
 
@@ -105,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
-                  onPressed: _togglePause,
+                  onPressed: _executePomodoroTimer,
                   child: Text(
                     _toggleIcon(),
                     style: const TextStyle(fontSize: 16),
